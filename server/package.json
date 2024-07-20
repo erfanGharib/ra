@@ -18,6 +18,7 @@
         "@sequelize/sqlite3": "7.0.0-alpha.41",
         "@swc/cli": "^0.4.0",
         "@swc/core": "^1.7.0",
+        "axios": "^1.7.2",
         "chokidar": "^3.6.0",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
@@ -31,7 +32,9 @@
         "postgres": "^3.4.4",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
+        "react-icons": "^5.2.1",
         "react-router-dom": "^6.25.1",
+        "react-terminal": "^1.4.4",
         "yup": "^1.4.0",
         "zustand": "^4.5.4"
     },

@@ -22,8 +22,21 @@
     font-family: commissioner;
 }
 
-body, #__next {
-    @apply h-screen w-full flex text-slate-700;
+body, #root {
+    @apply h-screen w-full flex text-white bg-black-800;
+    color-scheme: dark;
+}
+.index_caretAfter__6aXPx {
+    @apply !w-[2px] !-top-[0];
+}
+#terminal-container {
+    @apply [&>div]:w-full;
+}
+#terminalEditor {
+    @apply !bg-black;
+}
+#terminalEditor, #terminalEditor * {
+    font-family: monospace;
 }
 
 input {

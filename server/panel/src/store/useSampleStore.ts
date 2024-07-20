@@ -1,14 +1,24 @@
 import { create } from 'zustand';
 
-type State = {
-    data: string
+export interface T_User {
+    id: number;
+    name: string;
+    isOnline: boolean;
 }
 
-export type T_SampleActions = {
-    setData: (val: State['data']) => void
+export type T_UserState = {
+    data: T_User[],
+    selectedUser: T_User;
 }
 
-export const useSampleStore = create<State & T_SampleActions>(set => ({
-    data: null,
+export type T_UsersActions = {
+    setData: (val: T_UserState['data']) => void
+    setSelectedUser: (val: T_UserState['selectedUser']) => void,
+}
+
+export const useUsersStore = create<T_UserState & T_UsersActions>(set => ({
+    data: [],
+    selectedUser: null,
     setData: (val) => set({ data: val }),
+    setSelectedUser: (val) => set({ selectedUser: val }),
 })); 
