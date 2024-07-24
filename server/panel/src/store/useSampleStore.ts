@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
 export interface T_User {
-    id: number;
-    name: string;
+    usr_id: number;
+    usr_name: string;
     isOnline: boolean;
 }
 

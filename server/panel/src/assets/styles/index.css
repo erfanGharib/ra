@@ -20,6 +20,10 @@
 
 :not(code) {
     font-family: commissioner;
+    letter-spacing: normal !important;
+}
+.xterm-rows > div > span {
+    font-family: monospace;
 }
 
 body, #root {

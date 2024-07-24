@@ -1,6 +1,5 @@
 import { useAsyncEffect } from "../utils/useAsyncEffect";
 import { _axios } from "../utils/_axios";
-import { apiEndpoints } from "../global";
 import { T_User, T_UsersActions, T_UserState, useUsersStore } from "../store/useSampleStore";
 
 interface T_Props {
@@ -13,10 +12,10 @@ const User = ({ selectedUser, setSelectedUser, data }: T_Props) => {
     return (
         <div 
             onClick={() => setSelectedUser(data)}
-            className={`${data.id === selectedUser?.id ? "bg-[#333]" : ""} flex transition px-5 py-3 f-center-between cursor-pointer hover:bg-[#333] w-full border-b border-neutral-700`}
+            className={`${data.usr_id === selectedUser?.usr_id ? "bg-[#333]" : ""} flex transition px-5 py-3 f-center-between cursor-pointer hover:bg-[#333] w-full border-b border-neutral-700`}
         >
             <div className="flex flex-col">
-                <h3 className="">{data.name}</h3>
+                <h3 className="">{data.usr_name}</h3>
                 <span className="opacity-50 text-xs">meta data</span>
             </div>
             <span 
@@ -33,36 +32,30 @@ const UsersList = () => {
     useAsyncEffect(async () => {
         users.setData([
             {
-                id: 1,
-                name: "TOP",
+                usr_id: 1,
+                usr_name: "TOP",
                 isOnline: false,
             },
             {
-                id: 2,
-                name: "e.gharib",
+                usr_id: 2,
+                usr_name: "e.gharib",
                 isOnline: true,
             },
             {
-                id: 3,
-                name: "Public",
+                usr_id: 3,
+                usr_name: "Public",
                 isOnline: true,
             },
         ]);
-        // try {
-        //     const fetchedData: T_User[] = (await _axios.get(apiEndpoints.users)).data;
-        //     setData(fetchedData);
-        // } 
-        // catch(err) {
-        //     throw err;
-        // }
     }, []);
 
     return (
         <div className={`f-start flex-col overflow-hidden`}>
             <h2 className="px-3 py-2 text-sm text-opacity-60 border-b bg-neutral-700 border-neutral-700 w-full">Users:</h2>
             {
-                users.data.map((val) => 
+                users.data.map((val, index) => 
                     <User 
+                        key={index}
                         selectedUser={users.selectedUser} 
                         setSelectedUser={users.setSelectedUser} 
                         data={val} 

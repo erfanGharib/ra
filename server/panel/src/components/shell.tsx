@@ -1,19 +1,90 @@
-import { ReactTerminal } from "react-terminal";
 import { useUsersStore } from "../store/useSampleStore";
 import { TfiInfoAlt } from "react-icons/tfi";
+import { IDENTIFIERS } from "../global";
+import { useSocketStore } from "../store/useSocket";
+import { useEffect, useRef } from 'react';
+import { Terminal } from 'xterm';
+import { FitAddon } from 'xterm-addon-fit';
+import 'xterm/css/xterm.css';
 
 const Shell = () => {
+    const socket = useSocketStore();
     const users = useUsersStore();
+    
+    const terminalRef = useRef<HTMLDivElement>(null);
+    const xtermRef    = useRef<Terminal>(null);
+    const fitAddonRef = useRef<FitAddon>(null);
+
     let element = null;
+
+    const writePrompt = () => {
+        xtermRef.current.write(`\r\nroot@${users.selectedUser.usr_name}> `);
+    }
+    
+    useEffect(() => {
+        if(!terminalRef.current) return;
+
+        xtermRef.current = new Terminal({
+            cursorBlink: true,
+            rows: 20,
+            cols: 80,
+        });
+
+        fitAddonRef.current = new FitAddon();
+        xtermRef.current.loadAddon(fitAddonRef.current);
+
+        xtermRef.current.open(terminalRef.current);
+        fitAddonRef.current.fit();
+
+        let _data = "";
+
+        xtermRef.current.onData((data) => {
+            _data += data;
+
+            if (data.charCodeAt(0) === 13) { // Enter key
+                if(!socket.client) socket.connect();
+                
+                socket.client?.send(IDENTIFIERS.COMMAND + _data);
+                writePrompt();
+
+                _data = "";
+            } 
+            else if (data.charCodeAt(0) === 127) { // Backspace key
+                console.log(data.charAt(1));
+                
+                xtermRef.current.write('\b \b');
+            } 
+            else {
+                xtermRef.current.write(data);
+            }
+        });
+
+        xtermRef.current.focus();
+
+        return () => {
+            xtermRef.current.dispose();
+        };
+    }, [users]);
+
+    useEffect(() => {
+        if(!socket.client)
+            socket.connect();
+    }, []);
+    
+    useEffect(() => {
+        if(socket.client && socket.client?.readyState === 1)
+            socket.client?.addEventListener('message', ({ data }) => {
+                if(data.startsWith(IDENTIFIERS.COMMAND_RESULT)) {
+                    xtermRef.current.write(`\r${data.slice(IDENTIFIERS.COMMAND_RESULT.length)}\r\n`);
+                    writePrompt();
+                }
+            })
+    })    
 
     switch (users.selectedUser?.isOnline) {
         case true:
             element = (
-                <ReactTerminal
-                    className="w-full"
-                    theme="dark"
-                    prompt={`root@${users.selectedUser.name} $`}
-                />
+                <div ref={terminalRef} style={{ height: '100%', width: '100%' }} />
             );
             break;
 
