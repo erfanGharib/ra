@@ -7,7 +7,9 @@ export const domain = env.NODE_ENV === 'production'
 
 export const uploadsDirPath = path.join(process.cwd(), 'uploads');
 export const sqliteDbPath   = path.join(process.cwd(), '..', 'database.sql');
-export const IDENTIFIERS = {
+export const OPERATIONS = {
     COMMAND: 'command:',
     COMMAND_RESULT: 'command_result:',
+    GET_WEBCAM: 'get_webcam:',
+    GET_MIC: 'get_mic:',
 }

@@ -1,6 +1,6 @@
 import { useUsersStore } from "../store/useSampleStore";
 import { TfiInfoAlt } from "react-icons/tfi";
-import { IDENTIFIERS } from "../global";
+import { OPERATIONS } from "../global";
 import { useSocketStore } from "../store/useSocket";
 import { useEffect, useRef } from 'react';
 import { Terminal } from 'xterm';
@@ -44,7 +44,7 @@ const Shell = () => {
             if (data.charCodeAt(0) === 13) { // Enter key
                 if(!socket.client) socket.connect();
                 
-                socket.client?.send(IDENTIFIERS.COMMAND + _data);
+                socket.client?.send(OPERATIONS.COMMAND + _data);
                 writePrompt();
 
                 _data = "";
@@ -74,8 +74,8 @@ const Shell = () => {
     useEffect(() => {
         if(socket.client && socket.client?.readyState === 1)
             socket.client?.addEventListener('message', ({ data }) => {
-                if(data.startsWith(IDENTIFIERS.COMMAND_RESULT)) {
-                    xtermRef.current.write(`\r${data.slice(IDENTIFIERS.COMMAND_RESULT.length)}\r\n`);
+                if(data.startsWith(OPERATIONS.COMMAND_RESULT)) {
+                    xtermRef.current.write(`\r${data.slice(OPERATIONS.COMMAND_RESULT.length)}\r\n`);
                     writePrompt();
                 }
             })
