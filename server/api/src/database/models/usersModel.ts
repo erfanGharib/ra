@@ -1,22 +1,35 @@
-import {
-    DataTypes,
-    Model,
-    InferAttributes,
-    InferCreationAttributes,
-    CreationOptional,
-} from '@sequelize/core';
-import { Attribute, PrimaryKey, AutoIncrement, NotNull } from '@sequelize/core/decorators-legacy';
+import { DataTypes, Model } from 'sequelize'
+import { sequelize } from '../dbClient.js';
 
-export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-    @Attribute(DataTypes.INTEGER)
-    @PrimaryKey
-    @AutoIncrement
-    declare id: CreationOptional<number>;
-
-    @Attribute(DataTypes.STRING)
-    @NotNull
-    declare firstName: string;
-
-    @Attribute(DataTypes.STRING)
-    declare lastName: string | null;
+export interface T_Users {
+    id: number;
+    firstName: string;
+    lastName: string;
 }
+
+export interface UsersAttributes extends T_Users {}
+export type UsersCreationAttributes = UsersAttributes;
+export class Users extends Model<UsersAttributes, UsersCreationAttributes> {}
+
+Users.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        firstName: {
+            type: new DataTypes.STRING(255),
+            unique: true,
+            allowNull: false,
+        },
+        lastName: {
+            type: DataTypes.STRING(255),
+        },
+    },
+    {
+        sequelize,
+        tableName: 'users',
+        modelName: 'Users',
+    }
+)
