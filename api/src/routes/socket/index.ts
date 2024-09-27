@@ -6,6 +6,9 @@ const setupEvents = (ws: WebSocket) => {
     ws.on('message', function message(data) {
         const _data = data.toString();
 
+        console.log(_data);
+        
+
         for (const client of clients) {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(_data);

@@ -1,5 +1,5 @@
 import { domain, uploadsDirPath } from './global/index.js';
-import { authRoute } from './routes/auth/auth.route.js';
+import { authRouter } from './routes/auth/auth.route.js';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import morgan from 'morgan';
@@ -7,9 +7,9 @@ import cors from 'cors';
 import http from 'http';
 import { setupRoutes } from './utils/setupRoutes.js';
 import { checkUploadsDirExistence } from './utils/checkUploadsDirExistence.js';
-import { sequelize } from './database/dbClient.js';
+import { dbClient } from './database/dbClient.js';
 import { initSocket } from './routes/socket/index.js';
-import { shellRoute } from './routes/shell/shell.route.js';
+// import { shellRoute } from './routes/shell/shell.route.js';
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -19,8 +19,8 @@ const corsConfig = {
 	origin: `*`
 }
 const routers = [
-	authRoute,
-	shellRoute,
+	authRouter,
+//	shellRoute,
 ]
 
 checkUploadsDirExistence();
@@ -46,7 +46,7 @@ server.listen(port, async () => {
 	console.log('  Routes:  ', registeredRoutes);
     
     try {
-        await sequelize.authenticate();
+        await dbClient.authenticate({ logging: false });
         console.log('  Database: Connected to Sqlite\n');
     } catch (error) {
         console.error('  Unable to connect to the database:', error);

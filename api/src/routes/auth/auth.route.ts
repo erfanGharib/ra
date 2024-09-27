@@ -1,4 +1,4 @@
-import { authLoginController } from './authController.js';
+import { authLoginController } from './auth.controller.js';
 import { validateReqBody } from '../../middlewares/validateReqBody.js';
 import { parseForm } from '../../middlewares/parseForm.js';
 import { setCookie } from '../../utils/setCookie.js';

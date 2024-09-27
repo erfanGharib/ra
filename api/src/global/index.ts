@@ -6,7 +6,7 @@ export const domain = env.NODE_ENV === 'production'
     : env.LOCAL_CLIENT_DOMAIN
 
 export const uploadsDirPath = path.join(process.cwd(), 'uploads');
-export const sqliteDbPath   = path.join(process.cwd(), '..', 'database.sql');
+export const sqliteDbPath   = path.join(process.cwd(), '..', 'database.sqlite');
 export const OPERATIONS = {
     COMMAND: 'command:',
     COMMAND_RESULT: 'command_result:',

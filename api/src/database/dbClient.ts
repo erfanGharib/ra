@@ -1,12 +1,14 @@
 import { Sequelize } from 'sequelize';
 import { env } from 'process';
+import { sqliteDbPath } from '../global/index.js';
 
-export const sequelize = new Sequelize(
-  env.DATABASE_NAME,
-  env.DATABASE_USER, 
-  env.DATABASE_PASSWORD,
+export const dbClient = new Sequelize(
+  env.DB_NAME,
+  env.DB_USER, 
+  env.DB_PASSWORD,
   {
-      host: env.DATABASE_HOST,
-      dialect: 'postgres'
+    host: env.DB_HOST,
+    dialect: 'sqlite',
+	storage: sqliteDbPath		
   }
 );

@@ -4,11 +4,11 @@ import { dbClient } from "../../database/dbClient.js";
 import { setCookie } from "../../utils/setCookie.js";
 import { T_User } from "../../types/T_User.js";
 import { Request, Response } from "express";
-import { and, eq } from "drizzle-orm";
+//import { and, eq } from "drizzle-orm";
 import md5 from "md5";
 
 export const authLoginController = async (req: Request, res: Response) => {
-    const { body } = req;
+    /*const { body } = req;
     const user = (
         await dbClient
         .select()
@@ -18,11 +18,11 @@ export const authLoginController = async (req: Request, res: Response) => {
             eq(usersModel.usr_password, md5(body.usr_password.toString())),
         ))
     ) as T_User[];
-    
-    if(user.length > 0) {
-        setCookie(res, { usr_username: user[0].usr_username });
+    */
+    //if(user.length > 0) {
+        //setCookie(res, { usr_username: user[0].usr_username });
         return res.json('user logged in successfully');
-    }
+    //}
     
     res.status(404).send(
         createHttpResponse(404, { 
